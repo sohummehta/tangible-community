@@ -3,7 +3,7 @@ import numpy as np
 import sys
 
 # Choose the ArUco dictionary you want to detect
-desired_aruco_dictionary = "DICT_6X6_250"
+desired_aruco_dictionary = "DICT_4X4_50"
 
 # Predefined dictionaries in OpenCV
 ARUCO_DICT = {
