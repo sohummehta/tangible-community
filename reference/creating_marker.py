@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-dictionary = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_6X6_250)
+dictionary = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_4X4_50)
 
 IDNumber = input("Please enter the ID number of the ArUco marker. Press q to quit: ")
 while (IDNumber != 'q'):

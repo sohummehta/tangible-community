@@ -15,7 +15,7 @@ dist = data['dist']
 cap = cv.VideoCapture(0)  # Replace 0 with another index if needed
 
 # Load ArUco dictionary and detection parameters
-aruco_dict = cv.aruco.getPredefinedDictionary(cv.aruco.DICT_6X6_250)
+aruco_dict = cv.aruco.getPredefinedDictionary(cv.aruco.DICT_4X4_50)
 parameters = cv.aruco.DetectorParameters()
 
 # Get frame size for optimal new camera matrix
