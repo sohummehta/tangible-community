@@ -14,6 +14,7 @@ ARUCO_DICT = {
     "DICT_5X5_50": cv2.aruco.DICT_5X5_50,
     "DICT_5X5_100": cv2.aruco.DICT_5X5_100,
     "DICT_5X5_250": cv2.aruco.DICT_5X5_250,
+    "DICT_5X5_1000": cv2.aruco.DICT_5X5_1000,
     "DICT_6X6_50": cv2.aruco.DICT_6X6_50,
     "DICT_6X6_100": cv2.aruco.DICT_6X6_100,
     "DICT_6X6_250": cv2.aruco.DICT_6X6_250,
