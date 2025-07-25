@@ -26,7 +26,7 @@ ARUCO_DICT = {
     "DICT_ARUCO_ORIGINAL": cv2.aruco.DICT_ARUCO_ORIGINAL,
 }
 
-def main():
+def detect_markers():
     # Validate dictionary
     if desired_aruco_dictionary not in ARUCO_DICT:
         print(f"[ERROR] The dictionary '{desired_aruco_dictionary}' is not supported.")
@@ -87,5 +87,4 @@ def main():
     cap.release()
     cv2.destroyAllWindows()
 
-if __name__ == "__main__":
-    main()
+detect_markers()
