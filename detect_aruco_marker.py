@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import sys
 
-# Choose the ArUco dictionary you want to detect
+# Aruco dictionary we are detecting
 desired_aruco_dictionary = "DICT_4X4_50"
 
 # Predefined dictionaries in OpenCV
@@ -14,7 +14,6 @@ ARUCO_DICT = {
     "DICT_5X5_50": cv2.aruco.DICT_5X5_50,
     "DICT_5X5_100": cv2.aruco.DICT_5X5_100,
     "DICT_5X5_250": cv2.aruco.DICT_5X5_250,
-    "DICT_5X5_1000": cv2.aruco.DICT_5X5_1000,
     "DICT_6X6_50": cv2.aruco.DICT_6X6_50,
     "DICT_6X6_100": cv2.aruco.DICT_6X6_100,
     "DICT_6X6_250": cv2.aruco.DICT_6X6_250,
