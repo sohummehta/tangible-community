@@ -26,6 +26,46 @@ ARUCO_DICT = {
     "DICT_ARUCO_ORIGINAL": cv2.aruco.DICT_ARUCO_ORIGINAL,
 }
 
+# Load the dictionary and detector once
+if desired_aruco_dictionary not in ARUCO_DICT:
+    print(f"[ERROR] The dictionary '{desired_aruco_dictionary}' is not supported.")
+    sys.exit(1)
+
+dictionary = cv2.aruco.getPredefinedDictionary(ARUCO_DICT[desired_aruco_dictionary])
+parameters = cv2.aruco.DetectorParameters()
+detector = cv2.aruco.ArucoDetector(dictionary, parameters)
+
+
+def detect_aruco(frame, draw=True):
+    """
+    Detect ArUco markers in a frame.
+    Returns:
+        corners: List of marker corner positions
+        ids: Marker IDs as a NumPy array
+    """
+    corners, ids, _ = detector.detectMarkers(frame)
+
+    if draw and ids is not None and len(ids) > 0:
+        ids = ids.flatten()
+        for marker_corners, marker_id in zip(corners, ids):
+            corners_reshaped = marker_corners.reshape((4, 2)).astype(int)
+            (top_left, top_right, bottom_right, bottom_left) = corners_reshaped
+
+            cv2.line(frame, top_left, top_right, (0, 255, 0), 2)
+            cv2.line(frame, top_right, bottom_right, (0, 255, 0), 2)
+            cv2.line(frame, bottom_right, bottom_left, (0, 255, 0), 2)
+            cv2.line(frame, bottom_left, top_left, (0, 255, 0), 2)
+
+            center_x = int((top_left[0] + bottom_right[0]) / 2)
+            center_y = int((top_left[1] + bottom_right[1]) / 2)
+            cv2.circle(frame, (center_x, center_y), 4, (0, 0, 255), -1)
+
+            cv2.putText(frame, f"ID: {marker_id}", (top_left[0], top_left[1] - 10),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
+
+    return corners, ids
+
+'''
 def detect_markers():
     # Validate dictionary
     if desired_aruco_dictionary not in ARUCO_DICT:
@@ -88,3 +128,4 @@ def detect_markers():
     cv2.destroyAllWindows()
 
 detect_markers()
+'''
