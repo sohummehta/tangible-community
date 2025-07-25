@@ -16,7 +16,8 @@ marker_map = {
 MAP_WIDTH = 35
 MAP_LENGTH = 23
 corner_ids = {0, 1, 2, 3}
-marker_positions = {}
+marker_positions = []
+marker_dict = {}
 
 cap = cv2.VideoCapture(0)
 
@@ -44,16 +45,21 @@ while True:
             
             # Draw transformed (map) coordinates on screen
             if (0 <= map_x <= MAP_WIDTH and 0 <= map_y <= MAP_LENGTH):
-                marker_positions[int(marker_id)] = {
+                marker_dict[int(marker_id)] = {
                     "x" : float(map_x),
                     "y" : float(map_y)
                 }
             else :
-                marker_positions.pop(int(marker_id), None)
+                marker_dict.pop(int(marker_id), None)
+
+        marker_positions = [
+        {"id": marker_id, "x": data["x"], "y": data["y"]}
+        for marker_id, data in sorted(marker_dict.items())
+        ]
 
     # Show the annotated video feed
     with open("marker_positions.json", "w") as f:
-        json.dump(dict(sorted(marker_positions.items())), f, indent=2)
+        json.dump(marker_positions, f, indent = 2)
 
 
     cv2.imshow("ArUco Map View", frame)
