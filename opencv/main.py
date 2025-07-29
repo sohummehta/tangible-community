@@ -13,6 +13,7 @@ marker_map = {
     3: [0, 23]       # bottom-left
 }
 
+#Change this for each map that's going to be used
 MAP_WIDTH = 35
 MAP_LENGTH = 23
 corner_ids = {0, 1, 2, 3}
