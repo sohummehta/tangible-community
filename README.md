@@ -25,6 +25,6 @@ python opencv/main.py
 ```
 
 This script does the following:
-- Uses your webcam to detect the ArUco markers.
+- Uses the webcam to detect the ArUco markers.
 - Automatically calculates the homography matrix using `homography.py`.
 - Updates and saves real-world corner coordinates in `marker_positions.json`.
