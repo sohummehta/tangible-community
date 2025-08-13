@@ -1,9 +1,30 @@
 import React from 'react';
 
 const mockAssets = [
-    {id: 'playground', x: 100, y: 150},
-    {id: 'dogpark', x: 300, y: 200},
-    {id: 'restroom', x: 200, y: 80},
+    {
+      id: 'playground', 
+      x: 100, 
+      y: 150,
+      width: 80,
+      height: 40,
+      color: '#FFD700'
+    },
+    {
+      id: 'dogpark', 
+      x: 300, 
+      y: 200,
+      width: 100,
+      height: 100,
+      color: 'green'
+    },
+    {
+      id: 'restroom', 
+      x: 200, 
+      y: 80,
+      width: 55,
+      height: 30,
+      color: '#ADD8E6'  
+    },
 ];
 
 const Mapping = () => {
@@ -11,8 +32,8 @@ const Mapping = () => {
         <div
       style={{
         position: 'relative',
-        width: 600,
-        height: 600,
+        width: 980,
+        height: 510,
         border: '2px solid red',
         margin: '0 auto',
         marginTop: 20,
@@ -25,15 +46,16 @@ const Mapping = () => {
             position: 'absolute',
             top: asset.y,
             left: asset.x,
-            width: 50,
-            height: 50,
-            backgroundColor: 'lightblue',
-            border: '1px solid gray',
+            width: asset.width,
+            height: asset.height,
+            backgroundColor: asset.color,
+            border: '2px solid gray',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             fontSize: 12,
             textAlign: 'center',
+            color: 'black'
           }}
         >
           {asset.id}

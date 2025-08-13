@@ -5,7 +5,6 @@ export default function Home() {
   return (
     <>
     <div>
-      <h1>Hello World</h1>
       <h1 style = {{textAlign: 'center'}}> 1-to-1 Mapping Demo</h1>
       <Mapping />
     </div>
