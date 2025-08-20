@@ -32,9 +32,14 @@ const Mapping = () => {
         <div
       style={{
         position: 'relative',
-        width: 980,
+        width: '100%',
+        aspectRatio: '4/3',
         height: 510,
-        border: '2px solid red',
+        backgroundImage: 'url(/map.png)',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        border: '2px solid black',
         margin: '0 auto',
         marginTop: 20,
       }}
