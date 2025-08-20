@@ -5,10 +5,11 @@ from .models import Asset, Map, AssetInMap, AssetBackground
 @admin.register(Asset)
 class AssetAdmin(admin.ModelAdmin):
     list_display = ('name', 'type', 'id', 'x_pos', 'y_pos', 'in_understand', 'in_map')
-    list_filter = ('type', 'in_understand', 'in_map')
-    search_fields = ('name', 'type')
+    list_filter = ('in_understand', 'in_map')
+    search_fields = ('name',)
     readonly_fields = ('id',)
 
+    autocomplete_fields = ['type']
 
 @admin.register(Map)
 class MapAdmin(admin.ModelAdmin):
@@ -27,6 +28,6 @@ class AssetInMapAdmin(admin.ModelAdmin):
 
 @admin.register(AssetBackground)
 class AssetBackgroundAdmin(admin.ModelAdmin):
-    list_display = ("asset", "cost", "size", "primary_user", "nearby_assets_40_miles", "has_context")
-    list_filter = ("has_context")
-    search_fields = ("asset__name", "primary_user", "context", "usage_patterns")
+    list_display = ("type_name", "cost", "size", "primary_user", "nearby_assets_40_miles", "has_context")
+    list_filter = ("has_context",)
+    search_fields = ("type_name", "primary_user", "context", "usage_patterns")
