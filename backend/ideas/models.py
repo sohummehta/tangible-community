@@ -56,8 +56,8 @@ class AssetBackground(models.Model):
 
     nearby_assets_40_miles = models.PositiveIntegerField(default=0, help_text="Count of similar assets within 40 miles")
 
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True) #don't know if we need these two
+    updated_at = models.DateTimeField(auto_now=True) #same as above
 
     def __str__(self):
         return f"Background for {self.asset}"
