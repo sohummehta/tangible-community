@@ -182,13 +182,13 @@ function AssetPanel({ asset }: { asset: Asset }) {
 export default function Understand({ markerId }: { markerId?: number }) {
   // Example mapping from marker IDs to asset IDs
   const markerToAsset: Record<number, AssetId> = {
-    101: "baseball",
-    202: "playground",
-    303: "dogpark",
-    404: "restroom",
+    1: "baseball",
+    2: "playground",
+    3: "dogpark",
+    4: "restroom",
   };
 
-  const [demoMarkerId, setDemoMarkerId] = useState<number | undefined>(markerId ?? 101);
+  const [demoMarkerId, setDemoMarkerId] = useState<number | undefined>(markerId ?? 1);
   const assetId: AssetId | undefined = useMemo(() => (demoMarkerId == null ? undefined : markerToAsset[demoMarkerId]), [demoMarkerId]);
   const asset = assetId ? ASSETS[assetId] : undefined;
 
@@ -198,7 +198,7 @@ export default function Understand({ markerId }: { markerId?: number }) {
       <Card variant="outlined" sx={{ p: 1.5, borderStyle: "dashed" }}>
         <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap">
           <Typography variant="body2" sx={{ fontWeight: 600 }}>Simulate detected marker:</Typography>
-          {[101, 202, 303, 404].map((id) => (
+          {[1, 2, 3, 4].map((id) => (
             <Button key={id} size="small" variant={demoMarkerId === id ? "contained" : "outlined"} onClick={() => setDemoMarkerId(id)}>
               #{id}
             </Button>
