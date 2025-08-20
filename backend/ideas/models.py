@@ -34,4 +34,31 @@ class Map(models.Model):
 class AssetInMap(models.Model):
     assets = models.ManyToManyField(Asset)
     map = models.ForeignKey(Map, on_delete=models.CASCADE)
+
+class AssetBackground(models.Model):
+    asset = models.OneToOneField(
+        'ideas.Asset',
+        on_delete=models.CASCADE,
+        related_name = 'background'
+    )
+
+    cost = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True, help_text="Total cost")
+    size = models.CharField(max_length=100, blank=True, help_text='e.g., "20×40 m" or "800 m²"')
+    carbon_emission = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True, help_text="Estimated kg CO₂e")
+
+    has_context = models.BooleanField(default=False, help_text="Check if context applies")
+    context = models.TextField(blank=True)
+
+    primary_user = models.CharField(max_length=200, blank=True, help_text="Intended population / primary user")
+    usage_patterns = models.TextField(blank=True)
+    lighting_noise = models.TextField(blank=True, help_text="Lighting / noise considerations")
+    drainage_maintenance = models.TextField(blank=True, help_text="Drainage / maintenance requirements")
+
+    nearby_assets_40_miles = models.PositiveIntegerField(default=0, help_text="Count of similar assets within 40 miles")
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Background for {self.asset}"
     

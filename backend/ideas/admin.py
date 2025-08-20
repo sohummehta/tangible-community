@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Asset, Map, AssetInMap
+from .models import Asset, Map, AssetInMap, AssetBackground
 
 
 @admin.register(Asset)
@@ -24,3 +24,9 @@ class AssetInMapAdmin(admin.ModelAdmin):
     def get_asset_count(self, obj):
         return obj.assets.count()
     get_asset_count.short_description = 'Number of Assets' 
+
+@admin.register(AssetBackground)
+class AssetBackgroundAdmin(admin.ModelAdmin):
+    list_display = ("asset", "cost", "size", "primary_user", "nearby_assets_40_miles", "has_context")
+    list_filter = ("has_context",)
+    search_fields = ("asset__name", "primary_user", "context", "usage_patterns")
