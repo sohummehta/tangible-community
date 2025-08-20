@@ -3,7 +3,12 @@ from django.db import models
 
 class Asset(models.Model):
     name = models.CharField(max_length=200) # name of the marker e.g., baseballfield_1
-    type = models.CharField(max_length=200) # type of the marker (to consider multiple markers with the same type) e.g., baseballfield
+    type = models.ForeignKey(
+        'ideas.AssetBackground',
+        on_delete=models.PROTECT,
+        related_name = 'assets',
+        verbose_name= 'type/background',
+    ) # type of the marker (to consider multiple markers with the same type) e.g., baseballfield
     marker_id = models.IntegerField(default=999)
     x_pos = models.FloatField()
     y_pos = models.FloatField()
@@ -16,7 +21,7 @@ class Asset(models.Model):
     # Do we need other fields?
 
     def __str__(self):
-        return self.type + "_" + str(self.marker_id)
+        return f"{self.type.type_name}_{self.marker_id}"
 
 
 
@@ -36,11 +41,7 @@ class AssetInMap(models.Model):
     map = models.ForeignKey(Map, on_delete=models.CASCADE)
 
 class AssetBackground(models.Model):
-    asset = models.OneToOneField(
-        'ideas.Asset',
-        on_delete=models.CASCADE,
-        related_name = 'background'
-    )
+    type_name = models.CharField(max_length = 100, unique= True,)
 
     cost = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True, help_text="Total cost")
     size = models.CharField(max_length=100, blank=True, help_text='e.g., "20×40 m" or "800 m²"')
@@ -60,5 +61,6 @@ class AssetBackground(models.Model):
     updated_at = models.DateTimeField(auto_now=True) #same as above
 
     def __str__(self):
-        return f"Background for {self.asset}"
+        #return f"Background for {self.asset}"
+        return self.type_name
     
