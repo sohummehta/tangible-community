@@ -45,10 +45,10 @@ class AssetBackground(models.Model):
 
     cost = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True, help_text="Total cost")
     size = models.CharField(max_length=100, blank=True, help_text='e.g., "20×40 m" or "800 m²"')
-    carbon_emission = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True, help_text="Estimated kg CO₂e")
+    carbon_emission = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True, help_text="Estimated kt CO₂e")
 
     has_context = models.BooleanField(default=False, help_text="Check if context applies")
-    context = models.TextField(blank=True)
+    #context = models.TextField(blank=True)
 
     primary_user = models.CharField(max_length=200, blank=True, help_text="Intended population / primary user")
     usage_patterns = models.TextField(blank=True)

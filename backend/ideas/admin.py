@@ -30,4 +30,4 @@ class AssetInMapAdmin(admin.ModelAdmin):
 class AssetBackgroundAdmin(admin.ModelAdmin):
     list_display = ("type_name", "cost", "size", "primary_user", "nearby_assets_40_miles", "has_context")
     list_filter = ("has_context",)
-    search_fields = ("type_name", "primary_user", "context", "usage_patterns")
+    search_fields = ("type_name", "primary_user", "usage_patterns")
