@@ -1,35 +1,49 @@
 #!/bin/bash
 
-echo "Setting up Django + PostgreSQL + Docker backend..."
+# Setup script for Docker deployment
 
-# Check if Docker is running
-if ! docker info > /dev/null 2>&1; then
-    echo "Error: Docker is not running. Please start Docker Desktop and try again."
+echo "🐳 Setting up Docker environment..."
+
+# Check if Docker is installed
+if ! command -v docker &> /dev/null; then
+    echo "❌ Docker is not installed. Please install Docker first."
     exit 1
 fi
 
-# Build and start containers
-echo "Building and starting Docker containers..."
-docker compose up --build -d
+# Check if Docker Compose is installed
+if ! command -v docker-compose &> /dev/null; then
+    echo "❌ Docker Compose is not installed. Please install Docker Compose first."
+    exit 1
+fi
 
-# Wait for database to be ready
-echo "Waiting for database to be ready..."
+# Create .env file from example if it doesn't exist
+if [ ! -f .env ]; then
+    echo "📝 Creating .env file from env.example..."
+    cp env.example .env
+    echo "✅ .env file created. Please edit it with your settings."
+fi
+
+# Build and start containers
+echo "🔨 Building Docker containers..."
+docker-compose build
+
+echo "🚀 Starting services..."
+docker-compose up -d
+
+echo "⏳ Waiting for database to be ready..."
 sleep 10
 
 # Run migrations
-echo "Running Django migrations..."
-docker compose exec -T web python manage.py makemigrations
-docker compose exec -T web python manage.py migrate
+echo "🗄️ Running database migrations..."
+docker-compose exec web python manage.py migrate
 
-# Create superuser if it doesn't exist
-echo "Creating superuser..."
-docker compose exec -T web python manage.py createsuperuser --noinput --username admin --email admin@example.com || echo "Superuser already exists or creation failed"
+# Create superuser
+echo "👤 Creating superuser..."
+docker-compose exec web python manage.py createsuperuser
 
-echo "Setup complete!"
-echo "Access your application at:"
-echo "- Django Admin: http://localhost:8000/admin/"
-echo "- API: http://localhost:8000/api/"
-echo "- Tasks API: http://localhost:8000/api/tasks/"
+echo "✅ Setup complete!"
+echo "🌐 Django admin: http://localhost:8000/admin"
+echo "📊 API endpoints: http://localhost:8000/api/"
 echo ""
-echo "To stop the application: docker compose down"
-echo "To view logs: docker compose logs -f" 
+echo "To stop services: docker-compose down"
+echo "To view logs: docker-compose logs -f"
