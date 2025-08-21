@@ -2,7 +2,7 @@
 
 A real-time ArUco marker detection system that automatically syncs marker positions with a Django backend for asset tracking and management.
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - Python 3.8+
@@ -99,7 +99,7 @@ docker-compose logs -f
 docker-compose exec web python manage.py shell
 ```
 
-## 📋 System Overview
+## System Overview
 
 ### Components
 - **Django Backend**: REST API for storing and retrieving marker positions
@@ -114,7 +114,7 @@ docker-compose exec web python manage.py shell
 - **URL**: http://localhost:8000/admin
 - **Purpose**: Manage assets and monitor real-time position updates
 
-## 🎯 Physical Setup
+## Physical Setup
 
 ### Map Configuration
 1. **Measure** the width and height of your map in **centimeters**
@@ -131,7 +131,7 @@ docker-compose exec web python manage.py shell
 - Place these markers on physical objects you want to track
 - Configure corresponding assets in Django admin with matching marker IDs
 
-## 🔧 Configuration
+## Configuration
 
 ### Map Dimensions
 Edit `opencv/main_with_backend.py`:
@@ -163,7 +163,7 @@ DB_HOST=db
 DB_PORT=5432
 ```
 
-## 📊 Usage
+## Usage
 
 ### 1. Start Backend
 **Local:**
@@ -198,7 +198,7 @@ python main_with_backend.py
 4. Add "Assets" with matching marker IDs
 5. Watch positions update in real-time
 
-## 🧪 Testing
+## Testing
 
 ### Test Backend Connection
 ```bash
@@ -223,7 +223,7 @@ curl -X POST http://localhost:8000/api/update-marker-positions/ \
   -d '[{"id": 4, "x": 13.37, "y": 5.07}]'
 ```
 
-## 🛠️ Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
@@ -270,47 +270,3 @@ docker-compose logs -f
 - Monitor `marker_positions.json` for local data
 - Use admin interface to verify database updates
 
-## 📁 File Structure
-
-```
-tangible-community/
-├── README.md              # Complete setup and usage guide
-├── backend/               # Django backend
-│   ├── core/             # Django project settings
-│   ├── ideas/            # Main app with models and API
-│   ├── manage.py         # Django management
-│   ├── requirements.txt  # Python dependencies
-│   ├── docker-compose.yml # Docker services
-│   ├── Dockerfile        # Docker image
-│   ├── setup.sh          # Docker setup script
-│   ├── env.example       # Environment variables template
-│   └── db.sqlite3        # SQLite database (local dev)
-├── opencv/               # ArUco detection
-│   ├── main_with_backend.py      # Main detection script
-│   ├── detect_aruco_marker.py    # ArUco detection functions
-│   ├── homography.py             # Coordinate transformation
-│   ├── test_backend_connection.py # Backend testing
-│   └── marker_positions.json     # Local position backup
-└── README.md            # This file
-```
-
-## 🎯 Features
-
-- ✅ Real-time ArUco marker detection
-- ✅ Automatic coordinate transformation (camera → map)
-- ✅ Django backend integration
-- ✅ RESTful API endpoints
-- ✅ Admin interface for asset management
-- ✅ Real-time position updates
-- ✅ Error handling and logging
-- ✅ Local data backup
-- ✅ Docker deployment support
-- ✅ PostgreSQL database support
-
-## 📝 License
-
-[Add your license information here]
-
-## 🤝 Contributing
-
-[Add contribution guidelines here]
