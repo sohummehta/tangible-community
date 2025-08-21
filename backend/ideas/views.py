@@ -16,6 +16,27 @@ from .serializers import *
 #     queryset = Idea.objects.all()
 #     serializer_class = IdeaSerializer 
 
+@csrf_exempt
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def getAssets(request):
+    """Get all assets with their positions and type information for the mapping frontend"""
+    if request.method == 'GET':
+        assets = Asset.objects.select_related('type').all()
+        data = []
+        for asset in assets:
+            asset_data = {
+                'id': asset.id,
+                'name': asset.name,
+                'type': asset.type.type_name,
+                'marker_id': asset.marker_id,
+                'x_pos': asset.x_pos,
+                'y_pos': asset.y_pos,
+                'in_map': asset.in_map,
+                'info': asset.info or {}
+            }
+            data.append(asset_data)
+        return Response(data, status=status.HTTP_200_OK)
 
 @csrf_exempt
 @api_view(['POST','GET'])
