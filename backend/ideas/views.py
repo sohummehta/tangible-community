@@ -35,3 +35,13 @@ def updateCoordinates(request):
         asset.save()
 
     return Response(status=status.HTTP_200_OK)
+
+
+@csrf_exempt
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def getMapAssets(request):
+    """Get all assets that are marked as in_map=True"""
+    assets = Asset.objects.filter(in_map=True)
+    serializer = AssetSerializer(assets, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
