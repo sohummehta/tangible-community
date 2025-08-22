@@ -1,8 +1,16 @@
 from rest_framework import serializers
-from .models import Asset, Map, AssetInMap
+from .models import Asset, Map, AssetInMap, AssetBackground
+
+
+class AssetBackgroundSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AssetBackground
+        fields = '__all__'
 
 
 class AssetSerializer(serializers.ModelSerializer):
+    type = AssetBackgroundSerializer(read_only=True)
+    
     class Meta:
         model = Asset
         fields = '__all__'
