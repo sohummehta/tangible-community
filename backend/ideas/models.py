@@ -12,6 +12,7 @@ class Asset(models.Model):
     marker_id = models.IntegerField(default=999)
     x_pos = models.FloatField()
     y_pos = models.FloatField()
+    rotation = models.FloatField(default = 0.0)
 
     in_understand = models.BooleanField(default=False)
     in_map = models.BooleanField(default=False)

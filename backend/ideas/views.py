@@ -60,6 +60,7 @@ def updateMarkerPositions(request):
                 marker_id = marker_data.get('id')
                 x_pos = marker_data.get('x')
                 y_pos = marker_data.get('y')
+                rotation = marker_data.get('rotation')
                 
                 if marker_id is not None and x_pos is not None and y_pos is not None:
                     # Find assets with this marker_id and update their positions
@@ -67,6 +68,7 @@ def updateMarkerPositions(request):
                     for asset in assets:
                         asset.x_pos = x_pos
                         asset.y_pos = y_pos
+                        asset.rotation = rotation
                         asset.save()
                         updated_count += 1
             
