@@ -4,7 +4,7 @@ from .models import Asset, Map, AssetInMap, AssetBackground
 
 @admin.register(Asset)
 class AssetAdmin(admin.ModelAdmin):
-    list_display = ('name', 'type', 'id', 'x_pos', 'y_pos', 'in_understand', 'in_map')
+    list_display = ('name', 'type', 'id', 'x_pos', 'y_pos','rotation', 'in_understand', 'in_map')
     list_filter = ('in_understand', 'in_map')
     search_fields = ('name',)
     readonly_fields = ('id',)
