@@ -27,11 +27,13 @@ def updateCoordinates(request):
         asset_id = data.get('asset_id')
         x_pos = data.get('x_pos')
         y_pos = data.get('y_pos')
+        rotation = data.get('rotation')
 
         
         asset = Asset.objects.get(id=asset_id)
         asset.x_pos = x_pos
         asset.y_pos = y_pos
+        asset.rotation = rotation
         asset.save()
 
     return Response(status=status.HTTP_200_OK)
@@ -43,7 +45,7 @@ def updateCoordinates(request):
 def updateMarkerPositions(request):
     """
     Update marker positions from ArUco detection system
-    Expected format: [{"id": marker_id, "x": x_pos, "y": y_pos}, ...]
+    Expected format: [{"id": marker_id, "x": x_pos, "y": y_pos, "rotation": rotation_degrees}, ...]
     """
     if request.method == 'POST':
         try:
@@ -106,6 +108,7 @@ def getMarkerPositions(request):
             "id": asset.marker_id,
             "x": asset.x_pos,
             "y": asset.y_pos,
+            "rotation": asset.rotation,
             "asset_name": asset.name,
             "asset_type": asset.type.type_name if asset.type else None
         })
