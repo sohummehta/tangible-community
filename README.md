@@ -768,7 +768,7 @@ Frontend (Browser Console):
 
 ---
 
-## 🎨 Customization
+## Customization
 
 ### Change Update Frequency
 
@@ -871,41 +871,10 @@ Communication      HTTP/REST         -          API protocol
                    JSON              -          Data format
 ```
 
-### Performance Characteristics
-
-| Metric | Value | Notes |
-|--------|-------|-------|
-| **Update Latency** | ~5 seconds | Time from movement to display |
-| **Network Requests** | 1 per 5s | Minimal bandwidth usage |
-| **Data Size** | ~200 bytes/marker | Very light payload |
-| **CPU Usage** | Low | Efficient polling |
-| **Memory Usage** | <10MB | Lightweight |
-| **Animation FPS** | 60 FPS | Smooth transitions |
-
-### Browser Compatibility
-- ✅ Chrome/Edge (recommended)
-- ✅ Firefox
-- ✅ Safari
-- ✅ Mobile browsers (responsive)
-- ⚠️ Internet Explorer not supported
-
-### Coordinate Systems
-
-**Three coordinate systems work together:**
-
-1. **Physical Map**: Real-world centimeters (e.g., 35cm × 23cm)
-2. **Base Coordinates**: Normalized pixel space (600px × 394px)
-3. **Display Coordinates**: Responsive screen pixels (varies by device)
-
-**Why Base Coordinates?**
-- Provides predictable intermediate coordinate space
-- Simplifies conversion from physical cm to screen pixels
-- Maintains aspect ratio of physical map
-- Easier to debug and reason about
 
 ---
 
-## 🚀 Future Enhancements
+## What I could maybe do
 
 ### Short Term
 - [ ] Add caching layer to reduce API calls
@@ -933,7 +902,7 @@ Communication      HTTP/REST         -          API protocol
 
 ---
 
-## 📚 Learning Resources
+## Learning Resources
 
 ### React & Next.js
 - [React Documentation](https://react.dev)
@@ -954,57 +923,3 @@ Communication      HTTP/REST         -          API protocol
 
 ---
 
-## 📞 Support
-
-### Getting Help
-
-1. **Check Documentation**: Read this README thoroughly
-2. **Check Console Logs**: Look for errors in all three terminals
-3. **Check Browser Console**: Press F12 to see frontend errors
-4. **Test Individual Components**: Use test scripts in opencv folder
-5. **Verify Configuration**: Ensure all settings match your setup
-
-### Success Checklist
-
-- [ ] Backend running on port 8000
-- [ ] ArUco detection sending data to backend
-- [ ] Frontend running on port 3000
-- [ ] Camera showing markers clearly
-- [ ] All four corner markers detected
-- [ ] Browser showing `/main` page
-- [ ] Green "Live" indicator visible
-- [ ] Markers appearing on screen in correct positions
-- [ ] Smooth animations when moving markers
-
----
-
-## 🎉 Conclusion
-
-**Your tangible community mapping system bridges the physical and digital worlds!**
-
-The system features:
-- ✅ Real-time marker detection and tracking
-- ✅ Automatic coordinate conversion
-- ✅ Smooth animations and professional UI
-- ✅ Comprehensive error handling
-- ✅ Responsive design for all devices
-- ✅ Easy customization and extension
-
-**The physical and digital worlds are now connected!** 🌉
-
----
-
-## 📄 License
-
-[Add your license here]
-
----
-
-## 👥 Contributors
-
-[Add contributors here]
-
----
-
-*Last updated: October 1, 2025*  
-*Status: ✅ FULLY OPERATIONAL*
