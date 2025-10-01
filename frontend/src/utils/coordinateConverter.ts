@@ -77,7 +77,7 @@ export function getAssetColor(assetType: string | null): string {
 }
 
 /**
- * Gets default size for asset based on type
+ * Gets default size for asset based on type (fallback when physical dimensions not available)
  * @param assetType - Type of asset from backend
  * @returns Object with width and height in frontend pixels
  */
@@ -96,5 +96,22 @@ export function getDefaultAssetSize(assetType: string | null): { width: number; 
   
   const type = assetType.toLowerCase();
   return sizeMap[type] || sizeMap['default'];
+}
+
+/**
+ * Converts physical dimensions (cm) to frontend display dimensions (pixels)
+ * @param physicalWidth - Physical width in cm
+ * @param physicalHeight - Physical height in cm
+ * @returns Object with width and height in frontend pixels
+ */
+export function convertPhysicalToDisplaySize(physicalWidth: number, physicalHeight: number): { width: number; height: number } {
+  // Convert physical dimensions to frontend coordinates using the same scaling as coordinates
+  const scaleX = FRONTEND_BASE_WIDTH / BACKEND_MAP_WIDTH;
+  const scaleY = FRONTEND_BASE_HEIGHT / BACKEND_MAP_HEIGHT;
+  
+  return {
+    width: physicalWidth * scaleX,
+    height: physicalHeight * scaleY
+  };
 }
 

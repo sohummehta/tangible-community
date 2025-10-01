@@ -7,6 +7,7 @@ import {
   convertBackendToFrontend, 
   getAssetColor, 
   getDefaultAssetSize,
+  convertPhysicalToDisplaySize,
   FRONTEND_BASE_WIDTH,
   FRONTEND_BASE_HEIGHT
 } from "@/utils/coordinateConverter";
@@ -57,8 +58,18 @@ export default function Mapping() {
     // Convert backend coordinates (cm) to frontend coordinates (pixels)
     const { x, y } = convertBackendToFrontend(marker.x, marker.y);
     
-    // Get size and color based on asset type
-    const { width, height } = getDefaultAssetSize(marker.asset_type);
+    // Use physical dimensions if available, otherwise fall back to default sizes
+    let width, height;
+    if (marker.physical_width > 0 && marker.physical_height > 0) {
+      const physicalSize = convertPhysicalToDisplaySize(marker.physical_width, marker.physical_height);
+      width = physicalSize.width;
+      height = physicalSize.height;
+    } else {
+      const defaultSize = getDefaultAssetSize(marker.asset_type);
+      width = defaultSize.width;
+      height = defaultSize.height;
+    }
+    
     const color = getAssetColor(marker.asset_type);
     
     return {

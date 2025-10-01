@@ -110,7 +110,9 @@ def getMarkerPositions(request):
             "y": asset.y_pos,
             "rotation": asset.rotation,
             "asset_name": asset.name,
-            "asset_type": asset.type.type_name if asset.type else None
+            "asset_type": asset.type.type_name if asset.type else None,
+            "physical_width": asset.physical_width,
+            "physical_height": asset.physical_height
         })
     
     return Response(marker_positions, status=status.HTTP_200_OK)
