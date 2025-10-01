@@ -1,40 +1,31 @@
-# 🗺️ Tangible Community - Real-Time ArUco Marker Detection System
+# Tangible Community - Real-Time ArUco Marker Detection System
 
 A real-time ArUco marker detection system that bridges physical and digital worlds. Place markers on a physical map, and watch them appear instantly on your digital display. Perfect for community planning, urban design, and interactive mapping applications.
 
 ---
 
-## 🚀 Quick Start (3 Steps)
+## Quick Start (3 Steps)
 
-### 1️⃣ Start Backend (Terminal 1)
+### Start Backend (Terminal 1)
 ```bash
 cd backend
 python manage.py runserver
 ```
-✅ Should show: `Starting development server at http://127.0.0.1:8000/`
 
-### 2️⃣ Start ArUco Detection (Terminal 2)
+### Start ArUco Detection (Terminal 2)
 ```bash
 cd opencv
 python main_with_backend.py
 ```
-✅ Should show camera feed window and "Sent X marker positions to backend"
 
-### 3️⃣ Start Frontend (Terminal 3)
+### Start Frontend (Terminal 3)
 ```bash
 cd frontend
 npm run dev
 ```
-✅ Should show: `Local: http://localhost:3000`
 
-### 🎯 View the Live Map
-Open your browser to: **http://localhost:3000/main**
-
-**What You Should See:**
-- ✅ Green "Live (X markers)" badge
-- ✅ Colored boxes representing physical markers
-- ✅ Markers update position every 5 seconds
-- ✅ Smooth animations when markers move
+### View the Live Map
+Open your browser to: **http://localhost:4000/main**
 
 ---
 
@@ -56,7 +47,7 @@ Open your browser to: **http://localhost:3000/main**
 
 ---
 
-## 🎯 System Overview
+## System Overview
 
 ### Components
 The system consists of three main components that work together:
@@ -78,18 +69,9 @@ React Frontend
 User's Browser Display
 ```
 
-### Key Features
-- ✅ Real-time marker position tracking
-- ✅ Automatic coordinate conversion (cm → pixels)
-- ✅ Smooth animations and transitions
-- ✅ Asset type-based styling (colors, sizes)
-- ✅ Rotation detection and display
-- ✅ Error handling and recovery
-- ✅ Responsive design for all screen sizes
-
 ---
 
-## 💻 Installation
+## Installation
 
 ### Prerequisites
 - Python 3.8+
@@ -182,63 +164,45 @@ docker-compose exec web python manage.py migrate
 
 ---
 
-## 🏗️ System Architecture
-
-### Component Diagram
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                    YOUR COMPLETE SYSTEM                          │
-└─────────────────────────────────────────────────────────────────┘
-                              │
-              ┌───────────────┼───────────────┐
-              ▼               ▼               ▼
-         
-    ┌─────────────┐   ┌─────────────┐   ┌─────────────┐
-    │   OPENCV    │   │   BACKEND   │   │  FRONTEND   │
-    │  Detection  │──▶│   Django    │◀──│   React     │
-    │   System    │   │     API     │   │   Next.js   │
-    └─────────────┘   └─────────────┘   └─────────────┘
-```
-
 ### File Structure
 ```
 tangible-community/
 │
 ├── opencv/                          [PHYSICAL → DIGITAL BRIDGE]
-│   ├── main_with_backend.py        ✅ Main detection script
-│   ├── detect_aruco_marker.py      ✅ ArUco detection logic
-│   ├── homography.py               ✅ Coordinate transformation
-│   ├── test_backend_connection.py  🧪 Backend connectivity test
-│   ├── test_basic_aruco.py         🧪 ArUco detection test
-│   └── marker_positions.json       📝 Local backup file
+│   ├── main_with_backend.py        Main detection script
+│   ├── detect_aruco_marker.py      ArUco detection logic
+│   ├── homography.py               Coordinate transformation
+│   ├── test_backend_connection.py  Backend connectivity test
+│   ├── test_basic_aruco.py         ArUco detection test
+│   └── marker_positions.json       Local backup file
 │
 ├── backend/                         [DATA MANAGEMENT LAYER]
 │   ├── ideas/
-│   │   ├── models.py               💾 Asset database model
-│   │   ├── views.py                🔌 API endpoints
-│   │   ├── serializers.py          📦 Data serialization
-│   │   └── urls.py                 🛣️  API routing
+│   │   ├── models.py               Asset database model
+│   │   ├── views.py                API endpoints
+│   │   ├── serializers.py          Data serialization
+│   │   └── urls.py                 API routing
 │   ├── core/
-│   │   └── settings.py             ⚙️  Django configuration
-│   ├── requirements.txt            📋 Python dependencies
-│   ├── docker-compose.yml          🐳 Docker configuration
-│   └── db.sqlite3                  💾 Database storage
+│   │   └── settings.py             Django configuration
+│   ├── requirements.txt            Python dependencies
+│   ├── docker-compose.yml          Docker configuration
+│   └── db.sqlite3                  Database storage
 │
 └── frontend/                        [USER INTERFACE LAYER]
     ├── src/
     │   ├── hooks/
-    │   │   └── useMarkerPositions.ts    🔄 Real-time data fetching
+    │   │   └── useMarkerPositions.ts    Real-time data fetching
     │   ├── utils/
-    │   │   └── coordinateConverter.ts   🎯 Coordinate conversion
+    │   │   └── coordinateConverter.ts   Coordinate conversion
     │   ├── components/
-    │   │   ├── mapping.tsx              🗺️  Main map display
-    │   │   └── understand.tsx           📊 Analytics component
+    │   │   ├── mapping.tsx              Main map display
+    │   │   └── understand.tsx           Analytics component
     │   └── app/
-    │       ├── main/page.tsx            📄 Main page
-    │       └── asset-config/page.tsx    ⚙️  Asset configuration
+    │       ├── main/page.tsx            Main page
+    │       └── asset-config/page.tsx    Asset configuration
     │
-    ├── package.json                 📦 Node dependencies
-    └── next.config.ts               ⚙️  Next.js configuration
+    ├── package.json                 Node dependencies
+    └── next.config.ts               Next.js configuration
 ```
 
 ### Data Transformations
@@ -274,24 +238,9 @@ Base Coordinates   →  Screen Display
 Fixed size        →  Maintains aspect ratio
 ```
 
-### Timing Diagram
-```
-Time:  0s     5s    10s    15s    20s    25s
-       │      │      │      │      │      │
-       ▼      ▼      ▼      ▼      ▼      ▼
-OpenCV: ●─────●─────●─────●─────●─────●  (Send to backend)
-       │      │      │      │      │      │
-Backend: ●────●────●────●────●────●  (Update database)
-         │     │     │     │     │     │
-Frontend: ●───●───●───●───●───●  (Fetch & display)
-
-● = Update event (every 5 seconds)
-Maximum latency: ~5 seconds
-```
-
 ---
 
-## ⚙️ Configuration
+## Configuration
 
 ### Physical Map Dimensions
 
@@ -313,16 +262,6 @@ marker_map = {
 }
 MAP_WIDTH = 35   # Your map width in cm
 MAP_LENGTH = 23  # Your map height in cm
-```
-
-3. **`opencv/test_basic_aruco.py`** (Lines 81-84)
-```python
-marker_map = {
-    0: [0, 0],
-    1: [35, 0],      # Update these
-    2: [35, 23],     # to match
-    3: [0, 23]       # your map
-}
 ```
 
 ### Backend Configuration
@@ -383,7 +322,7 @@ export const FRONTEND_BASE_HEIGHT = Math.round(FRONTEND_BASE_WIDTH / (BACKEND_MA
 
 ---
 
-## 🎨 Frontend Development
+## Frontend Development
 
 ### Next.js Project
 
@@ -440,7 +379,7 @@ const sizeMap: { [key: string]: { width: number; height: number } } = {
 
 ---
 
-## 🎯 Physical Setup
+## Physical Setup
 
 ### Map Configuration
 
@@ -486,7 +425,7 @@ const sizeMap: { [key: string]: { width: number; height: number } } = {
 
 ---
 
-## 🔌 API Documentation
+## API Documentation
 
 ### Endpoints
 
@@ -647,7 +586,7 @@ Press `Ctrl+C` in each terminal window
 
 ---
 
-## 🧪 Testing
+## Testing
 
 ### Test Backend Connection
 ```bash
