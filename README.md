@@ -186,7 +186,7 @@ tangible-community/
 │   │   └── settings.py             Django configuration
 │   ├── requirements.txt            Python dependencies
 │   ├── docker-compose.yml          Docker configuration
-│   └── db.sqlite3                  Database storage
+│   └── (PostgreSQL via Docker)      Database storage
 │
 └── frontend/                        [USER INTERFACE LAYER]
     ├── src/
@@ -268,7 +268,7 @@ MAP_LENGTH = 23  # Your map height in cm
 
 #### Django Settings (`backend/core/settings.py`)
 - CORS configuration for frontend access
-- Database settings (SQLite by default)
+- Database settings (PostgreSQL via Docker)
 - API endpoints
 
 #### Environment Variables (Docker)
@@ -858,7 +858,7 @@ Detection          OpenCV            4.12       ArUco marker detection
 
 Backend            Django            5.2        Web framework
                    Django REST       3.14       API framework
-                   SQLite/Postgres   -          Database
+                   PostgreSQL       15          Database
                    Python            3.13       Core language
 
 Frontend           Next.js           15.4       React framework
