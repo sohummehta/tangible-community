@@ -1,5 +1,6 @@
 import React from 'react';
 import Mapping from "@/components/mapping"
+import Map from "@/components/leaflet"
 import {Typography, Button, Box } from "@mui/material"
 import Grid from "@mui/material/Grid"
 import Understand from '@/components/understand';
@@ -17,6 +18,7 @@ export default function Main() {
                 <Box sx = {{border: "1px solid black", p: 1, flex: { xs: "0 0 auto", md: "2 1 60%" }, display: "flex", flexDirection: "column", minHeight: { xs: 260, md: 0 },}}>
                     <Typography align = "center" variant = "h6">Mapping</Typography>
                     <Box sx = {{flex: 1, minHeight: 0}}>
+                        {/*<Map posix={[32.559697, -117.079759]} /> */}
                         <Mapping />
                     </Box>
                     <Box sx={{display: "flex", justifyContent: "center", mt: 1}}>
