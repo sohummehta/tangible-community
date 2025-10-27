@@ -1,108 +1,27 @@
 "use client"
 
-/*
-import React from 'react';
-import {Box} from '@mui/material';
-
-const mockAssets = [
-    {
-      id: 'playground', 
-      x: 100, 
-      y: 150,
-      width: 80,
-      height: 40,
-      color: '#FFD700'
-    },
-    {
-      id: 'dogpark', 
-      x: 300, 
-      y: 200,
-      width: 100,
-      height: 100,
-      color: 'green'
-    },
-    {
-      id: 'restroom', 
-      x: 200, 
-      y: 80,
-      width: 55,
-      height: 30,
-      color: '#ADD8E6'  
-    },
-];
-
-const Mapping = () => {
-    return (
-        <div
-      style={{
-        position: 'relative',
-        width: '100%',
-        aspectRatio: '4/3',
-        height: 510,
-        backgroundImage: 'url(/map.png)',
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center',
-        border: '2px solid black',
-        margin: '0 auto',
-        marginTop: 20,
-      }}
-    >
-      {mockAssets.map((asset) => (
-        <div
-          key={asset.id}
-          style={{
-            position: 'absolute',
-            top: asset.y,
-            left: asset.x,
-            width: asset.width,
-            height: asset.height,
-            backgroundColor: asset.color,
-            border: '2px solid black',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: 12,
-            textAlign: 'center',
-            color: 'black'
-          }}
-        >
-          {asset.id}
-        </div>
-      ))}
-    </div>
-    )
-}
-/*function Mapping() {
-    return (
-        <div>
-            <h1>Mapping</h1>
-        </div>
-    )
-}
-*/
-
 import React, { useLayoutEffect, useRef, useState } from "react";
-import { Button } from "@mui/material";
-
-type Asset = { id: string; x: number; y: number; width: number; height: number; color: string };
-
-const mockAssets: Asset[] = [
-  { id: "playground", x: 100, y: 150, width: 80,  height: 40,  color: "#FFD700" },
-  { id: "dogpark",    x: 300, y: 200, width: 100, height: 100, color: "green"   },
-  { id: "restroom",   x: 200, y:  80, width: 55,  height: 30,  color: "#ADD8E6" },
-];
+import { CircularProgress, Alert, Box } from "@mui/material";
+import { useMarkerPositions } from "@/hooks/useMarkerPositions";
+import { 
+  convertBackendToFrontend, 
+  getAssetColor, 
+  getDefaultAssetSize,
+  convertPhysicalToDisplaySize,
+  FRONTEND_BASE_WIDTH,
+  FRONTEND_BASE_HEIGHT
+} from "@/utils/coordinateConverter";
 
 /**
- * Choose the coordinate system you authored against.
- * If you originally placed objects on a 600×450 canvas, keep these as 600/450.
- * If you want to use the map’s native pixels instead, set to 2800/1054
- * and input asset coords/sizes in that space.
+ * Base coordinate system dimensions
+ * This is the coordinate space we convert backend data into
+ * Imported from coordinateConverter to maintain consistency
  */
-const BASE_W = 600;
-const BASE_H = 450;
+const BASE_W = FRONTEND_BASE_WIDTH;
+const BASE_H = FRONTEND_BASE_HEIGHT; 
 
-// Real image pixels (what you told me)
+
+// Real image pixels
 const IMG_W = 2800;
 const IMG_H = 1054;
 const IMG_RATIO = IMG_W / IMG_H; // ≈ 2.6578
@@ -110,6 +29,9 @@ const IMG_RATIO = IMG_W / IMG_H; // ≈ 2.6578
 export default function Mapping() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState({ w: 900, h: Math.round(900 / IMG_RATIO) });
+  
+  // Fetch real-time marker positions from backend
+  const { markerPositions, loading, error } = useMarkerPositions();
 
   // Track container width and compute height from the true image ratio
   useLayoutEffect(() => {
@@ -131,31 +53,79 @@ export default function Mapping() {
   const scaleX = size.w / BASE_W;
   const scaleY = size.h / BASE_H;
 
+  // Convert backend marker positions to frontend display format
+  const displayAssets = markerPositions.map((marker) => {
+    // Convert backend coordinates (cm) to frontend coordinates (pixels)
+    const { x, y } = convertBackendToFrontend(marker.x, marker.y);
+    
+    // Use physical dimensions if available, otherwise fall back to default sizes
+    let width, height;
+    if (marker.physical_width > 0 && marker.physical_height > 0) {
+      const physicalSize = convertPhysicalToDisplaySize(marker.physical_width, marker.physical_height);
+      width = physicalSize.width;
+      height = physicalSize.height;
+    } else {
+      const defaultSize = getDefaultAssetSize(marker.asset_type);
+      width = defaultSize.width;
+      height = defaultSize.height;
+    }
+    
+    const color = getAssetColor(marker.asset_type);
+    
+    return {
+      id: marker.id,
+      name: marker.asset_name,
+      x: x - width / 2, // Center the asset on the marker position
+      y: y - height / 2,
+      width,
+      height,
+      color,
+      rotation: marker.rotation
+    };
+  });
+
   return (
     <div ref={containerRef} style={{ width: "100%", maxWidth: 1100, margin: "0 auto" }}>
+      {/* Loading state */}
+      {loading && (
+        <Box display="flex" justifyContent="center" alignItems="center" py={4}>
+          <CircularProgress size={30} />
+          <Box ml={2}>Loading marker positions...</Box>
+        </Box>
+      )}
+      
+      {/* Error state */}
+      {error && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {error} - Make sure your backend is running on http://localhost:8000
+        </Alert>
+      )}
+      
+      {/* Map display */}
       <div
         style={{
           position: "relative",
           width: "100%",
-          height: size.h,                  // height derived from ratio
+          height: size.h,
           border: "2px solid #000",
           backgroundImage: 'url("/map.png")',
-          backgroundSize: "cover",         // keeps fill without letterboxing
+          backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          backgroundColor: "#dceac2",      // optional tint
+          backgroundColor: "#dceac2",
         }}
       >
-        {mockAssets.map((a) => (
+        {/* Display real-time marker positions */}
+        {displayAssets.map((asset) => (
           <div
-            key={a.id}
+            key={asset.id}
             style={{
               position: "absolute",
-              top: a.y * scaleY,
-              left: a.x * scaleX,
-              width: a.width * scaleX,
-              height: a.height * scaleY,
-              backgroundColor: a.color,
+              top: asset.y * scaleY,
+              left: asset.x * scaleX,
+              width: asset.width * scaleX,
+              height: asset.height * scaleY,
+              backgroundColor: asset.color,
               border: "2px solid black",
               display: "flex",
               alignItems: "center",
@@ -163,17 +133,29 @@ export default function Mapping() {
               fontSize: 12,
               color: "black",
               boxSizing: "border-box",
+              transform: `rotate(${asset.rotation}deg)`,
+              transition: "all 0.5s ease-in-out", // Smooth animation for position changes
+              transformOrigin: "center center",
             }}
           >
-            {a.id}
+            {asset.name}
           </div>
         ))}
         
+        {/* Show message if no markers detected */}
+        {!loading && displayAssets.length === 0 && (
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            height="100%"
+            color="#666"
+            fontSize={14}
+          >
+            No markers detected. Place markers on the physical map.
+          </Box>
+        )}
       </div>
     </div>
   );
 }
-
-
-
-//export default Mapping;

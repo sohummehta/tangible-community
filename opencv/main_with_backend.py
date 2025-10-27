@@ -28,17 +28,46 @@ except ImportError as e:
     print("Make sure detect_aruco_marker.py and homography.py are in the same directory")
     exit(1)
 
-# cm of the map (top left is going to be our origin)
-marker_map = {
-    0: [0, 0],       # top-left
-    1: [35, 0],     # top-right
-    2: [35, 23],    # bottom-right
-    3: [0, 23]       # bottom-left
-}
+# Map configuration - will be loaded from backend
+marker_map = {}
+MAP_WIDTH = 35  # fallback values
+MAP_LENGTH = 23  # fallback values
 
-# Change this for each map that's going to be used
-MAP_WIDTH = 35
-MAP_LENGTH = 23
+def load_map_config():
+    """Load map configuration from backend API"""
+    global MAP_WIDTH, MAP_LENGTH, marker_map
+    
+    try:
+        response = requests.get("http://localhost:8000/api/map-config/", timeout=2.0)
+        if response.status_code == 200:
+            config = response.json()
+            MAP_WIDTH = config['width']
+            MAP_LENGTH = config['height']
+            
+            # Update marker map with new dimensions
+            marker_map = {
+                0: [0, 0],                    # top-left
+                1: [MAP_WIDTH, 0],           # top-right
+                2: [MAP_WIDTH, MAP_LENGTH],   # bottom-right
+                3: [0, MAP_LENGTH]            # bottom-left
+            }
+            
+            print(f"[{datetime.now().strftime('%H:%M:%S')}] Loaded map config: {MAP_WIDTH}cm x {MAP_LENGTH}cm")
+            return True
+        else:
+            print(f"[{datetime.now().strftime('%H:%M:%S')}] Failed to load map config: {response.status_code}")
+            return False
+    except requests.exceptions.RequestException as e:
+        print(f"[{datetime.now().strftime('%H:%M:%S')}] Error loading map config: {e}")
+        return False
+
+# Initialize with fallback values
+marker_map = {
+    0: [0, 0],                    # top-left
+    1: [MAP_WIDTH, 0],           # top-right
+    2: [MAP_WIDTH, MAP_LENGTH],   # bottom-right
+    3: [0, MAP_LENGTH]            # bottom-left
+}
 corner_ids = {0, 1, 2, 3}
 marker_positions = []
 marker_dict = {}
@@ -100,6 +129,14 @@ backend_thread.start()
 print("Starting ArUco marker detection with backend sync...")
 print(f"Backend URL: {BACKEND_URL}")
 print(f"Update interval: {UPDATE_INTERVAL}s")
+
+# Load map configuration from backend
+print("Loading map configuration...")
+if load_map_config():
+    print("✓ Map configuration loaded successfully")
+else:
+    print("⚠ Using fallback map configuration")
+
 print("Press 'q' to quit")
 
 cap = cv2.VideoCapture(0)

@@ -110,7 +110,35 @@ def getMarkerPositions(request):
             "y": asset.y_pos,
             "rotation": asset.rotation,
             "asset_name": asset.name,
-            "asset_type": asset.type.type_name if asset.type else None
+            "asset_type": asset.type.type_name if asset.type else None,
+            "physical_width": asset.physical_width,
+            "physical_height": asset.physical_height
         })
     
     return Response(marker_positions, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def getMapConfig(request):
+    """
+    Get map configuration including physical dimensions and geographic bounds
+    """
+    try:
+        # Get the first map (assuming single map for now)
+        map_obj = Map.objects.first()
+        
+        if not map_obj:
+            return Response(
+                {"error": "No map configuration found"}, 
+                status=status.HTTP_404_NOT_FOUND
+            )
+        
+        serializer = MapConfigSerializer(map_obj)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+        
+    except Exception as e:
+        return Response(
+            {"error": str(e)}, 
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
