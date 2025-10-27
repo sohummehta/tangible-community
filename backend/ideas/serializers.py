@@ -9,9 +9,20 @@ class AssetSerializer(serializers.ModelSerializer):
 
 
 class MapSerializer(serializers.ModelSerializer):
+    geographic_bounds = serializers.ReadOnlyField()
+    
     class Meta:
         model = Map
-        fields = '__all__'
+        fields = ['id', 'name', 'width', 'height', 'geographic_bounds', 'config_version', 'updated_at']
+
+
+class MapConfigSerializer(serializers.ModelSerializer):
+    """Simplified serializer for map configuration API"""
+    geographic_bounds = serializers.ReadOnlyField()
+    
+    class Meta:
+        model = Map
+        fields = ['width', 'height', 'geographic_bounds', 'config_version']
 
 
 class AssetInMapSerializer(serializers.ModelSerializer):

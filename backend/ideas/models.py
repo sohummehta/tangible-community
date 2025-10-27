@@ -30,11 +30,34 @@ class Asset(models.Model):
 
 class Map(models.Model):
     name = models.CharField(default="tijuana_map")
-    width = models.FloatField()
-    height = models.FloatField()
+    width = models.FloatField(help_text="Physical map width in cm")
+    height = models.FloatField(help_text="Physical map height in cm")
+    
+    # Geographic bounds (latitude/longitude coordinates)
+    top_left_lat = models.FloatField(default=0.0, help_text="Top-left corner latitude")
+    top_left_lng = models.FloatField(default=0.0, help_text="Top-left corner longitude")
+    top_right_lat = models.FloatField(default=0.0, help_text="Top-right corner latitude")
+    top_right_lng = models.FloatField(default=0.0, help_text="Top-right corner longitude")
+    bottom_right_lat = models.FloatField(default=0.0, help_text="Bottom-right corner latitude")
+    bottom_right_lng = models.FloatField(default=0.0, help_text="Bottom-right corner longitude")
+    bottom_left_lat = models.FloatField(default=0.0, help_text="Bottom-left corner latitude")
+    bottom_left_lng = models.FloatField(default=0.0, help_text="Bottom-left corner longitude")
+    
+    config_version = models.CharField(max_length=50, default="1.0", help_text="Version identifier for configuration changes")
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
+    
+    @property
+    def geographic_bounds(self):
+        """Return geographic bounds as a dictionary"""
+        return {
+            'topLeft': {'lat': self.top_left_lat, 'lng': self.top_left_lng},
+            'topRight': {'lat': self.top_right_lat, 'lng': self.top_right_lng},
+            'bottomRight': {'lat': self.bottom_right_lat, 'lng': self.bottom_right_lng},
+            'bottomLeft': {'lat': self.bottom_left_lat, 'lng': self.bottom_left_lng},
+        }
 
 
 
