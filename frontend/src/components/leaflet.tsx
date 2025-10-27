@@ -20,6 +20,14 @@ const defaults = {
   zoom: 17,
 };
 
+const parkBounds = {
+  topLeft: {lat: 32.561065, lng:-117.083997},
+  topRight: {lat: 32.561065, lng: -117.075475},
+  bottomRight: {lat: 32.558361, lng: -117.075475},
+  bottomLeft: {lat: 32.558361, lng: -117.083997},
+}
+
+
 // Component to handle zoom updates
 function ChangeMapView({ center, zoom }: { center: LatLngExpression; zoom: number }) {
   const map = useMap();
