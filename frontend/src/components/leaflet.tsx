@@ -18,6 +18,7 @@ interface Asset {
   lng: number;
   name: string;
   type: string | null;
+  icon_path: string | null;
   rotation: number;
 }
 
@@ -35,53 +36,17 @@ const defaults = {
   zoom: 17,
 };
 
-// Create custom icon based on asset type with rotation support
-function createCustomIcon(assetType: string | null, rotation: number = 0): L.DivIcon {
-  // Default icon path
-  let iconUrl = '/asset-images/playground.svg';
-  
-  // Debug: Log the asset type to help identify the issue
-  console.log('Asset type received:', assetType);
-  
-  // Map asset types to specific SVG icons
-  if (assetType) {
-    const typeMap: { [key: string]: string } = {
-      'playground': '/asset-images/playground.svg',
-      'dogpark': '/asset-images/dog_park.svg',
-      'dog park': '/asset-images/dog_park.svg',
-      'restroom': '/asset-images/restroom.svg',
-      'baseball': '/asset-images/baseball.svg',
-      'baseball field': '/asset-images/baseball.svg',
-      'soccer': '/asset-images/soccer_field.svg',
-      'soccer field': '/asset-images/soccer_field.svg',
-      'tennis': '/asset-images/tennis.svg',
-      'tennis court': '/asset-images/tennis.svg',
-      'tennis courts': '/asset-images/tennis.svg',
-      'Tennis': '/asset-images/tennis.svg',
-      'Tennis Court': '/asset-images/tennis.svg',
-      'Tennis Courts': '/asset-images/tennis.svg',
-      'pickleball': '/asset-images/pickleball.svg',
-      'picnic': '/asset-images/picnic_shelter.svg',
-      'picnic shelter': '/asset-images/picnic_shelter.svg',
-      'amphitheater': '/asset-images/ampitheater.svg',
-      'nature play': '/asset-images/nature play.svg',
-      'public art': '/asset-images/public_art.svg',
-      'sculpture': '/asset-images/sculpture.svg',
-    };
-    
-    const normalizedType = assetType.toLowerCase().trim();
-    iconUrl = typeMap[normalizedType] || typeMap[assetType] || '/asset-images/playground.svg';
-    
-    // Debug: Log the mapping result
-    console.log(`Mapped "${assetType}" to icon: ${iconUrl}`);
-  }
+// Create custom icon based on icon_path from database with rotation support
+function createCustomIcon(iconPath: string | null, rotation: number = 0): L.DivIcon {
+  // Default icon path if none provided
+  const iconUrl = iconPath || '/asset-images/playground.svg';
   
   return L.divIcon({
     html: `<img src="${iconUrl}" style="width: 32px; height: 32px; transform: rotate(${rotation}deg); transform-origin: center center; transition: all 0.3s ease-in-out; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); cursor: pointer;" onmouseover="this.style.transform='rotate(${rotation}deg) scale(1.2)'; this.style.filter='drop-shadow(0 4px 8px rgba(0,0,0,0.5))';" onmouseout="this.style.transform='rotate(${rotation}deg) scale(1)'; this.style.filter='drop-shadow(0 2px 4px rgba(0,0,0,0.3))';" />`,
     iconSize: [32, 32],
     iconAnchor: [16, 16],
     popupAnchor: [0, -16],
-    className: `asset-marker-${assetType?.toLowerCase().replace(/\s+/g, '-') || 'default'}`,
+    className: `asset-marker-${iconPath?.replace(/[^a-zA-Z0-9-]/g, '-') || 'default'}`,
   });
 }
 
@@ -92,6 +57,7 @@ interface BackendAsset {
   rotation: number;
   asset_name: string;
   asset_type: string | null;
+  icon_path: string | null;
   physical_width: number;
   physical_height: number;
 }
@@ -110,6 +76,7 @@ async function transformBackendAssets(backendAssets: BackendAsset[]): Promise<As
         lng: lng,
         name: asset.asset_name,
         type: asset.asset_type,
+        icon_path: asset.icon_path,
         rotation: asset.rotation
       });
     } catch (error) {
@@ -186,7 +153,7 @@ const Map = ({ zoom = defaults.zoom, backendAssets, parkCenter, parkBounds }: Ma
         <Marker
           key={asset.id}
           position={[asset.lat, asset.lng]}
-          icon={createCustomIcon(asset.type, asset.rotation)}
+          icon={createCustomIcon(asset.icon_path, asset.rotation)}
           draggable={false}
         >
           <Popup>

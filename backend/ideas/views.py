@@ -111,6 +111,7 @@ def getMarkerPositions(request):
             "rotation": asset.rotation,
             "asset_name": asset.name,
             "asset_type": asset.type.type_name if asset.type else None,
+            "icon_path": asset.type.icon_path if asset.type and asset.type.icon_path else None,
             "physical_width": asset.physical_width,
             "physical_height": asset.physical_height
         })
