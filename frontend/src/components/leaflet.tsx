@@ -77,10 +77,10 @@ function createCustomIcon(assetType: string | null, rotation: number = 0): L.Div
   }
   
   return L.divIcon({
-    html: `<img src="${iconUrl}" style="width: 80px; height: 80px; transform: rotate(${rotation}deg); transform-origin: center center; transition: all 0.3s ease-in-out; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.4)); cursor: pointer;" onmouseover="this.style.transform='rotate(${rotation}deg) scale(1.25)'; this.style.filter='drop-shadow(0 6px 12px rgba(0,0,0,0.6))';" onmouseout="this.style.transform='rotate(${rotation}deg) scale(1)'; this.style.filter='drop-shadow(0 3px 6px rgba(0,0,0,0.4))';" />`,
-    iconSize: [80, 80],
-    iconAnchor: [40, 40],
-    popupAnchor: [0, -40],
+    html: `<img src="${iconUrl}" style="width: 32px; height: 32px; transform: rotate(${rotation}deg); transform-origin: center center; transition: all 0.3s ease-in-out; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); cursor: pointer;" onmouseover="this.style.transform='rotate(${rotation}deg) scale(1.2)'; this.style.filter='drop-shadow(0 4px 8px rgba(0,0,0,0.5))';" onmouseout="this.style.transform='rotate(${rotation}deg) scale(1)'; this.style.filter='drop-shadow(0 2px 4px rgba(0,0,0,0.3))';" />`,
+    iconSize: [32, 32],
+    iconAnchor: [16, 16],
+    popupAnchor: [0, -16],
     className: `asset-marker-${assetType?.toLowerCase().replace(/\s+/g, '-') || 'default'}`,
   });
 }
