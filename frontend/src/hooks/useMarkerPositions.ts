@@ -7,6 +7,7 @@ interface MarkerPosition {
   rotation: number;
   asset_name: string;
   asset_type: string | null;
+  icon_path: string | null;
   physical_width: number;
   physical_height: number;
 }

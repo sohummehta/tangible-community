@@ -68,6 +68,7 @@ class AssetInMap(models.Model):
 
 class AssetBackground(models.Model):
     type_name = models.CharField(max_length = 100, unique= True,)
+    icon_path = models.CharField(max_length=200, blank=True, null=True, help_text="Path to icon file (e.g., /asset-images/dog_park.svg)")
 
     cost = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True, help_text="Total cost")
     size = models.CharField(max_length=100, blank=True, help_text='e.g., "20×40 m" or "800 m²"')

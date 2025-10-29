@@ -28,6 +28,6 @@ class AssetInMapAdmin(admin.ModelAdmin):
 
 @admin.register(AssetBackground)
 class AssetBackgroundAdmin(admin.ModelAdmin):
-    list_display = ("type_name", "cost", "size", "primary_user", "nearby_assets_40_miles", "has_context")
+    list_display = ("type_name", "icon_path", "cost", "size", "primary_user", "nearby_assets_40_miles", "has_context")
     list_filter = ("has_context",)
-    search_fields = ("type_name", "primary_user", "usage_patterns")
+    search_fields = ("type_name", "primary_user", "usage_patterns", "icon_path")
